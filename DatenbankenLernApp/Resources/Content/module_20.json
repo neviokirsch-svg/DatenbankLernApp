@@ -1,0 +1,13 @@
+{"id":"m20","part":3,"order":20,"exam":0,"weight":0,"title":"Ausblick: Projektarbeit ProduktDB","pages":"Projektarbeit","icon":"shippingbox","glyph":"4.","goal":"Du siehst, wie die Klausurthemen in der Projektarbeit im 4. Semester wiederkommen. Das zählt 60 % der Modulnote, ist aber **kein Stoff der Klausur**.",
+"sections":[
+{"id":"m20s1","title":"Worum es im 4. Semester geht","practice":["m20q1","m20q2","m20q3"],"blocks":[
+{"t":"p","x":"In der Projektarbeit baust du eine relationale Produktdatenbank auf, ergänzt sie um eine semantische Suche und vergleichst beide Ansätze. Die relationale Datenbank bleibt dabei die **Source of Truth**."},
+{"t":"tb","title":"Aufgaben und ihr Bezug zu diesem Tool","head":["Aufgabe","Inhalt","Bezug"],"rows":[["A1 Datenmodell","Schema mit PK, FK, n:m-Tabellen, mindestens 3NF, Import","ER-Modelle, Schema, Normalformen"],["A2 Transaktionen","START TRANSACTION, COMMIT, ROLLBACK","ACID"],["A3 Trigger","Änderungen protokollieren, alte und neue Werte","kommt in SQL DDL"],["A4 Stored Procedure","Import, Dublettenprüfung, Validierung","kommt in SQL DDL"],["A5 Indizes","Gezielte Indizes, B-Bäume, EXPLAIN","Optimierung, Ausführungsplan"],["A6 Vektor-DB","Embeddings, semantische Suche, Vergleich mit SQL","Vektordatenbanken"],["A7 optional","Graph-DB und LLM-Antworten","Graphmodell"]]},
+{"t":"k","x":"**Prüfungsleistung laut Skript:** Klausur im 3. Semester (1 h, 40 %), benotete Projektarbeit mit Fachgespräch im 4. Semester (60 %), höchstens 3 Personen."}
+]}],
+"calcs":[],
+"questions":[
+{"id":"m20q1","k":"open","lvl":2,"pts":2,"q":"Warum ersetzt eine Vektorsuche keine saubere Datenmodellierung, und warum bleibt die relationale Datenbank die Source of Truth?","model":["Die Vektorsuche liefert ähnliche, approximative Treffer und keine garantierten Fakten","Integrität, Transaktionen und Schlüssel liegen in der relationalen Datenbank","Die Qualität der Suche hängt vom Embedding-Modell ab, die Daten sollen aber verbindlich bleiben"]},
+{"id":"m20q2","k":"mc","lvl":1,"pts":1,"q":"Wann liefert in der Produktdatenbank eher SQL das bessere Ergebnis?","o":["Bei einem exakten Filter wie „Preis unter 50 Euro und Marke SKF“","Bei „leichter Sommerrucksack für Tageswanderungen“","Bei „etwas Ähnliches wie dieser Rucksack“","Bei einer Suche nach inhaltlich ähnlichen Texten"],"a":[0]},
+{"id":"m20q3","k":"mc","lvl":1,"pts":1,"q":"Warum nutzt MySQL für Indizes laut Projektaufgabe B-Bäume?","o":["Sie halten Bereichs- und Gleichheitsabfragen auch bei großen Tabellen schnell.","Sie speichern Daten nur im RAM.","Sie ersetzen den Primärschlüssel.","Sie funktionieren nur auf Textspalten."],"a":[0]}
+]}

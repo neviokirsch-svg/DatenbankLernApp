@@ -1,0 +1,34 @@
+{"id":"m17","part":7,"order":17,"exam":6,"weight":2,"title":"Synthesealgorithmus","pages":"S. 11–12, 28–36, Merkblatt","icon":"square.grid.2x2","glyph":"3NF","goal":"Du erzeugst aus einer FD-Menge ein Datenbankschema in 3NF, das verlustlos und abhängigkeitstreu ist.",
+"sections":[
+{"id":"m17s1","title":"Die vier Schritte","practice":["m17q1","m17q2","m17q3"],"blocks":[
+{"t":"p","x":"Der **Synthesealgorithmus** zerlegt ein gegebenes Relationenschema in Relationenschemata, die alle in 3NF sind. Die Zerlegung ist **verlustlos und abhängigkeitstreu**."},
+{"t":"tb","head":["Schritt","Was tun"],"rows":[["**1.**","Kanonische Überdeckung F′ bestimmen"],["**2.**","Für jede FD α → β in F′ ein Schema αβ erzeugen, α wird Schlüssel"],["**3.**","Enthält kein Schema einen Kandidatenschlüssel der Gesamtrelation: ein weiteres Schema aus den Attributen eines Kandidaten erzeugen. Das sichert die Verlustlosigkeit"],["**4.**","Schemata löschen, die vollständig in einem anderen enthalten sind. Ihre FDs wandern ins enthaltende Schema"]]},
+{"t":"x","viz":"synth","params":{"presets":["wein","prof","assi","bsp"]}},
+{"t":"h","x":"Weingüter als fertiges Ergebnis"},
+{"t":"s","x":"Preise (<u>Name</u>, <u>Weingut</u>, Preis)\nFarben (<u>Name</u>, Farbe)\nGebiete (<u>Weingut</u>, Anbaugebiet)\nAnbaugebiete (<u>Anbaugebiet</u>, Region)"},
+{"t":"k","x":"**Minimalität:** Für R = ({A, B, C}, {A → B, B → C}) wären D1 = {(A, B), (B, C)} und D2 = {(A, B), (B, C), (A, C)} beide in 3NF. Nur D1 ist minimal, denn A → C folgt aus den anderen beiden."}
+]},
+{"id":"m17s2","title":"Das Beispiel ProfessorenAdr","practice":["m17q4","m17q5"],"blocks":[
+{"t":"s","x":"ProfessorenAdr: [PersNr, Name, Rang, Raum, Ort, Straße, PLZ, Vorwahl, BLand, EW, Landesregierung]"},
+{"t":"sl","part":7,"page":10,"crop":[0,55,100,42],"x":"Die Abhängigkeiten als Diagramm: PersNr und Raum sind Schlüsselkandidaten"},
+{"t":"tb","title":"Kanonische Überdeckung und erzeugte Tabellen","head":["FD","Tabelle"],"rows":[["PersNr → Name, Rang, Raum, Ort, Straße, BLand","Professoren"],["Ort, BLand → EW, Vorwahl","Städte-Verzeichnis"],["PLZ → BLand, Ort","PLZ-Verzeichnis, geht in der nächsten auf"],["Ort, BLand, Straße → PLZ","PLZ-Verzeichnis"],["BLand → Landesregierung","Regierungen"],["Raum → PersNr","Steckt in Professoren"]]},
+{"t":"k","x":"Schlüsselkandidaten sind **PersNr** und **Raum**. Beide stecken in der Tabelle Professoren, also ist kein weiteres Schema nötig. Am Ende bleiben vier Tabellen."},
+{"t":"sl","part":7,"page":11,"crop":[0,55,100,42],"x":"Synthese auf Basis der kanonischen Überdeckung"}
+]},
+{"id":"m17s3","title":"Übungsaufgabe AssiBossDiplomanden","practice":["m17q6","m17q7","m17q8","m17q9"],"blocks":[
+{"t":"s","x":"AssiBossDiplomanden (PersNr, Name, Fachgebiet, BossPersNr, BossName, MatrNr, SName, Semester, SWohnOrt)"},
+{"t":"p","x":"**Modell:** PersNr identifiziert einen Assistenten mit Name und Fachgebiet. Jeder Assistent hat genau einen Professor als Vorgesetzten, BossPersNr identifiziert ihn mit BossName. MatrNr identifiziert einen Studenten mit SName, Semester und SWohnOrt. Jeder Student wird von genau einem Assistenten betreut, ein Assistent kann mehrere Studenten betreuen."},
+{"t":"ex","x":"Die Klausur 2025 fragte die Synthese nicht direkt ab, aber das Merkblatt und Übungsblatt 6 tun es. Sie baut direkt auf F_{c} auf und kostet dich kaum Mehraufwand."}
+]}],
+"calcs":[],
+"questions":[
+{"id":"m17q1","k":"ord","lvl":1,"pts":2,"q":"Bringen Sie die Schritte des Synthesealgorithmus in die richtige Reihenfolge.","seq":["Kanonische Überdeckung bestimmen","Für jede FD ein Schema erzeugen","Falls nötig ein Schema mit einem Kandidatenschlüssel ergänzen","Enthaltene Schemata löschen"],"ref":"T7 S.28"},
+{"id":"m17q2","k":"mc","lvl":2,"pts":1,"q":"Wozu dient Schritt 3, das Ergänzen eines Schemas mit einem Kandidatenschlüssel?","o":["Es sichert die Verlustlosigkeit.","Es sichert die BCNF.","Es entfernt Redundanzen aus F.","Es sortiert die Tabellen."],"a":[0],"ref":"T7 S.28"},
+{"id":"m17q3","k":"ms","lvl":2,"pts":2,"q":"Welche Eigenschaften garantiert der Synthesealgorithmus?","o":["Verlustlos","Abhängigkeitstreu","Alle Schemata mindestens in 3NF","Alle Schemata immer in BCNF"],"a":[0,1,2],"e":"BCNF ist nicht garantiert. Manche Relationen lassen sich gar nicht abhängigkeitstreu in BCNF zerlegen.","ref":"T7 S.28"},
+{"id":"m17q4","k":"mc","lvl":2,"pts":2,"q":"Warum fällt bei ProfessorenAdr das Schema aus Raum → PersNr weg?","o":["(Raum, PersNr) ist vollständig im Schema Professoren enthalten.","Raum ist kein Attribut der Relation.","Weil Raum → PersNr nicht gilt.","Weil PersNr kein Schlüssel ist."],"a":[0],"ref":"T7 S.36"},
+{"id":"m17q5","k":"num","lvl":2,"pts":1,"q":"Wie viele Tabellen bleiben bei ProfessorenAdr am Ende übrig?","num":4,"tol":0.01,"unit":"Tabellen","steps":["Sechs FDs erzeugen sechs Schemata.","(PLZ, BLand, Ort) steckt in (Ort, BLand, Straße, PLZ).","(Raum, PersNr) steckt in Professoren.","6 − 2 = **4**"],"ref":"T7 S.36"},
+{"id":"m17q6","k":"open","lvl":2,"pts":3,"src":"Blatt 6 · 6.4 a","q":"Bestimmen Sie die geltenden **FDs** von AssiBossDiplomanden.","model":["PersNr → Name, Fachgebiet, BossPersNr","BossPersNr → BossName","MatrNr → SName, Semester, SWohnOrt, PersNr"],"ref":"T7 S.28"},
+{"id":"m17q7","k":"mc","lvl":2,"pts":2,"src":"Blatt 6 · 6.4 b","q":"Was sind die **Kandidatenschlüssel**?","o":["Nur MatrNr","Nur PersNr","PersNr und MatrNr gemeinsam","BossPersNr"],"a":[0],"steps":["MatrNr steht nur auf linken Seiten, gehört also in jeden Schlüssel.","MatrNr⁺ = MatrNr, SName, Semester, SWohnOrt, PersNr, Name, Fachgebiet, BossPersNr, BossName = R","Ein einzelnes Attribut ist minimal."],"ref":"T6 S.14"},
+{"id":"m17q8","k":"mc","lvl":2,"pts":1,"src":"Blatt 6 · 6.4 c","q":"Was ergibt die kanonische Überdeckung?","o":["Die FDs bleiben unverändert: Links steht nur je ein Attribut, rechts ist nichts überflüssig.","MatrNr → BossPersNr muss ergänzt werden.","PersNr → Name fällt weg.","BossPersNr → BossName fällt weg."],"a":[0],"ref":"T7 S.23"},
+{"id":"m17q9","k":"open","lvl":3,"pts":4,"src":"Blatt 6 · 6.4 d","q":"Führen Sie die **Synthese** aus. Geben Sie Primär- und Fremdschlüssel an.","model":["Assistent (<u>PersNr</u>, Name, Fachgebiet, BossPersNr), FK: Assistent.BossPersNr → Professor.BossPersNr","Professor (<u>BossPersNr</u>, BossName)","Student (<u>MatrNr</u>, SName, Semester, SWohnOrt, PersNr), FK: Student.PersNr → Assistent.PersNr","Der Schlüssel MatrNr steckt in Student, also ist kein zusätzliches Schema nötig"],"ref":"T7 S.28"}
+]}

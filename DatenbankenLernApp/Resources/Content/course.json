@@ -1,0 +1,17 @@
+{
+  "title": "Datenbanken",
+  "subtitle": "Datenbanksysteme, 3. Semester",
+  "tagline": "Klausur: 60 Minuten, sieben Aufgaben, ein beidseitig beschriebenes A4-Blatt als Hilfsmittel.",
+  "weightNote": "Die Klausur 2025 nennt keine Punkte. Die Anteile sind deshalb aus dem Aufgabenumfang geschätzt, etwa 1 Minute entspricht 1 Punkt. Tippe auf eine Zeile, um zum Thema zu springen.",
+  "examIntro": "60 Minuten, sieben Aufgaben, Aufbau wie in der Klausur 2025. Zeichne Diagramme auf Papier und vergleiche danach mit der Musterlösung.",
+  "examNote": "Die Klausur 2025 liegt als PDF in deinem Ordner und ist hier absichtlich nicht enthalten. Die Probeklausuren haben denselben Aufbau, aber andere Szenarien, Tabellen und FD-Mengen. So bleibt das Original ein echter Test für später.",
+  "examTasks": [
+    { "no": 1, "title": "DBMS, Access und Excel", "min": 4, "pct": 7, "what": "Vorteile eines DBMS nennen und Probleme von Excel im Tagesgeschäft erläutern." },
+    { "no": 2, "title": "Datenbanktypen und Aussagen", "min": 8, "pct": 13, "what": "Szenarien dem passenden Datenbanktyp zuordnen und Aussagen als wahr oder falsch bewerten." },
+    { "no": 3, "title": "ER-Diagramm in Chen-Notation", "min": 12, "pct": 20, "what": "Aus einem Text Entitäten, Schlüssel, Beziehungen und Kardinalitäten zeichnen." },
+    { "no": 4, "title": "Relationales Schema", "min": 7, "pct": 12, "what": "Das ER-Diagramm in Tabellen mit Datentypen, unterstrichenem Primärschlüssel und vollqualifiziertem Fremdschlüssel überführen." },
+    { "no": 5, "title": "Division in der relationalen Algebra", "min": 9, "pct": 15, "what": "Eine „alle“-Frage direkt beantworten und die Division mit allen Zwischenergebnissen herleiten." },
+    { "no": 6, "title": "Attributhülle und kanonische Überdeckung", "min": 10, "pct": 17, "what": "Einen Schlüssel algorithmisch prüfen, Links- und Rechtsreduktion durchführen und F_{c} angeben." },
+    { "no": 7, "title": "3NF und BCNF", "min": 10, "pct": 16, "what": "Normalformen begründen und eine Tabelle samt Daten in BCNF zerlegen." }
+  ]
+}

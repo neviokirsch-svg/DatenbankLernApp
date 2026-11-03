@@ -1,0 +1,48 @@
+{"id":"m09","part":4,"order":9,"exam":4,"weight":4,"title":"Das relationale Modell","pages":"S. 3–10","icon":"tablecells","glyph":"R","goal":"Du kennst Relation, Schema, Instanz und Domäne, schreibst ein Schema in der Notation der Vorlesung und erklärst Integritätsbedingungen samt Löschregeln.",
+"sections":[
+{"id":"m09s1","title":"Relation, Schema, Instanz","practice":["m09q1","m09q2","m09q3"],"blocks":[
+{"t":"p","x":"Die Grundidee stammt von E. F. Codd (1970): Sämtliche Daten liegen in **Tabellen** aus Zeilen und Spalten. Jede Spalte hat einen Namen und einen Datentyp, jede Zeile wird durch einen Primärschlüssel eindeutig identifiziert."},
+{"t":"sl","part":4,"page":5,"crop":[0,14,100,62],"x":"Aufbau einer Relation"},
+{"t":"tb","head":["Begriff","Bedeutung"],"rows":[["**Relationenschema**","Struktur: Name der Relation sowie Namen und Datentypen der Spalten"],["**Relation (Instanz)**","Der aktuelle Inhalt: eine Tabelle mit Zeilen und Spalten"],["**Attribut**","Spalte"],["**Tupel**","Zeile, ein Datensatz"],["**Datenbankschema**","Menge aller Relationenschemata"],["**Datenbank(wert)**","Menge aller Relationen"],["**Domäne**","Wertebereich eines Attributs"]]},
+{"t":"f","x":"R ⊆ D_{1} × D_{2} × … × D_{n}","title":"Eine Relation ist eine Teilmenge des kartesischen Produkts ihrer Domänen"},
+{"t":"rels","tabs":[{"title":"Relation Telefonbuch","head":["Name","Straße","Telefonnummer"],"rows":[["Cantor","Zahlengerade","987654"],["Jacobi","Matrizenweg","135791"],["Riemann","Integralpfad","246810"]]}]},
+{"t":"s","x":"Telefonbuch (Name: string, Straße: string, Telefonnummer: string)"},
+{"t":"h","x":"Relationen in der Mathematik"},
+{"t":"p","x":"Eine Relation R zwischen A und B legt fest, welche Elemente in Beziehung stehen. Beispiel: Mit A_{1} = {1, 2, 3} und A_{2} = {a, b} sind {(1,a), (2,b)} und auch die leere Menge Relationen. Das volle Produkt A_{1} × A_{2} hat 6 Tupel."},
+{"t":"p","x":"Aus der Vorlesungs-Datenbank: BELEGUNG ⊆ P × K × D. Jede Zeile liefert mit (PNR, KNR, DNR) genau ein Tupel. DATUM ist ein zusätzliches beschreibendes Attribut."}
+]},
+{"id":"m09s2","title":"Die Notation der Vorlesung","practice":["m09q4","m09q5","m09q6"],"blocks":[
+{"t":"sl","part":11,"page":1,"crop":[0,22,100,42],"x":"Beispiel aus dem Skript zur Darstellung eines Relationenmodells"},
+{"t":"s","x":"Person (<u>ID: integer</u>, Vorname: string, Nachname: string, Geburtstag: date, PLZ: integer, Note: decimal), FK: Person.PLZ → Stadt.PLZ"},
+{"t":"b","i":["**1.** Tabellennamen angeben","**2.** Felder angeben","**3.** Datentypen angeben","**4.** Primärschlüssel unterstreichen, zusammengesetzte ebenso","**5.** Fremdschlüssel vollqualifiziert angeben"]},
+{"t":"ex","x":"Genau diese fünf Punkte verlangt **Aufgabe 4**. Vollqualifiziert heißt **Tabelle.Feld → Tabelle.Feld**."},
+{"t":"p","x":"Das Skript zeigt noch eine zweite Darstellung, die Tabellenform: Spalte 1 mit PK und FK, Spalte 2 mit dem Feld, Spalte 3 mit dem Datentyp. Fremdschlüssel werden durch Linien verbunden."},
+{"t":"sl","part":10,"page":1,"crop":[54,22,46,62],"x":"Relationenmodell in Tabellenform"}
+]},
+{"id":"m09s3","title":"Schlüssel und Integrität","practice":["m09q7","m09q8","m09q9"],"blocks":[
+{"t":"tb","head":["Begriff","Bedeutung"],"rows":[["**Lokale Integrität**","Bedingung innerhalb einer Relation, z. B. „Preis darf nicht negativ sein“"],["**Entitätsintegrität**","Spezialfall: Primärschlüssel ist eindeutig und NOT NULL"],["**Globale Integrität**","Bedingung über mehrere Relationen, z. B. die referenzielle"],["**Fremdschlüssel (FK)**","Attributmenge, die auf den Primärschlüssel einer anderen Relation verweist"],["**Vaterrelation**","Referenzierte Relation, enthält den Primärschlüssel"],["**Abhängige Relation**","Referenzierende Relation, enthält den Fremdschlüssel"],["**Referenzielle Integrität**","Jeder FK-Wert kommt als Schlüsselwert in der Vaterrelation vor oder ist NULL, falls erlaubt"]]},
+{"t":"f","x":"RE = (R, I)","title":"Erweitertes Relationenschema: Relationenschema plus lokale Integritätsbedingungen"},
+{"t":"k","x":"Beispiel: Eine Rechnung darf nur auf eine KundenNr verweisen, die es in der Tabelle Kunde gibt."},
+{"t":"sl","part":2,"page":38,"crop":[0,8,100,38],"x":"BUCH und AUSLEIHE: Die Referenz muss eindeutig eine Zeile identifizieren"},
+{"t":"code","x":"-- Bleibt das Ergebnis leer, verweist jeder Fremdschlüssel auf eine existierende Zeile\nSELECT B.* FROM BELEGUNG B\nLEFT JOIN DOZENT D ON B.DNR = D.DNR\nWHERE D.DNR IS NULL;"}
+]},
+{"id":"m09s4","title":"Löschregeln","practice":["m09q10","m09q11"],"blocks":[
+{"t":"p","x":"Was passiert mit den abhängigen Tupeln, wenn ein Tupel der Vaterrelation gelöscht wird? Das legt die Regel beim Fremdschlüssel fest."},
+{"t":"x","viz":"fkrules"},
+{"t":"tb","head":["Regel","Wirkung beim Löschen"],"rows":[["**RESTRICT**","Löschen wird abgelehnt, solange ein Fremdschlüssel auf das Tupel verweist"],["**CASCADE**","Alle abhängigen Tupel werden mitgelöscht"],["**SET NULL / SET DEFAULT**","Fremdschlüssel werden auf NULL bzw. einen Standardwert gesetzt"]]},
+{"t":"k","x":"**ON UPDATE** regelt analog, was bei einer Änderung des Schlüssels passiert."}
+]}],
+"calcs":[],
+"questions":[
+{"id":"m09q1","k":"match","lvl":1,"pts":4,"q":"Welcher Begriff passt?","pairs":[["Eine Spalte","Attribut"],["Eine Zeile","Tupel"],["Struktur mit Namen und Datentypen","Relationenschema"],["Aktueller Inhalt einer Tabelle","Relation (Instanz)"]],"ref":"T4 S.5"},
+{"id":"m09q2","k":"mc","lvl":2,"pts":1,"q":"Mit A_{1} = {1, 2, 3} und A_{2} = {a, b}: Welche Menge ist **keine** Relation über A_{1} × A_{2}?","o":["{(a, 1)}","{}","{(1, a), (2, a), (3, a)}","{(1, a), (1, b), (2, a), (2, b), (3, a), (3, b)}"],"a":[0],"e":"Die Reihenfolge zählt: (a, 1) liegt in A_{2} × A_{1}, nicht in A_{1} × A_{2}. Die leere Menge ist eine gültige Relation.","ref":"T2 S.35"},
+{"id":"m09q3","k":"num","lvl":1,"pts":1,"q":"A_{1} = {1, 2, 3}, A_{2} = {a, b}. Wie viele Tupel hat das kartesische Produkt A_{1} × A_{2}?","num":6,"tol":0.01,"unit":"Tupel","steps":["3 · 2 = **6**"],"ref":"T2 S.35"},
+{"id":"m09q4","k":"mc","lvl":2,"pts":2,"q":"Welche Schreibweise entspricht der Notation der Vorlesung?","o":["Kurs (<u>KNR: integer</u>, Bezeichnung: string, TNR: integer), FK: Kurs.TNR → Thema.TNR","Kurs: KNR, Bezeichnung, TNR","<u>Kurs</u> (KNR: integer, Bezeichnung: string, TNR: integer), FK: TNR","Kurs (KNR: integer, Bezeichnung: string, <u>TNR: integer</u>), FK: Thema"],"a":[0],"e":"Datentypen, unterstrichener Primärschlüssel und vollqualifizierter Fremdschlüssel müssen da sein.","ref":"T4 S.1"},
+{"id":"m09q5","k":"ms","lvl":1,"pts":2,"q":"Was verlangt die Notation für ein Relationenmodell?","o":["Tabellennamen","Felder mit Datentypen","Primärschlüssel unterstrichen","Fremdschlüssel qualifiziert angegeben","Mindestens drei Beispielzeilen pro Tabelle"],"a":[0,1,2,3],"ref":"T4 S.1"},
+{"id":"m09q6","k":"open","lvl":2,"pts":3,"src":"klausurnah","q":"Schreiben Sie in der Notation der Vorlesung: Eine Tabelle **Buch** mit ISBN (Primärschlüssel), Titel, Erscheinungsjahr und dem Verweis auf den Verlag. Die Tabelle **Verlag** hat VerlagID und Name.","model":["Verlag (<u>VerlagID: integer</u>, Name: string)","Buch (<u>ISBN: string</u>, Titel: string, Erscheinungsjahr: integer, VerlagID: integer)","FK: Buch.VerlagID → Verlag.VerlagID"],"ref":"T4 S.1"},
+{"id":"m09q7","k":"match","lvl":2,"pts":3,"q":"Welche Integritätsart ist gemeint?","pairs":[["Der Preis darf nicht negativ sein.","Lokale Integrität"],["Primärschlüssel ist eindeutig und nie NULL.","Entitätsintegrität"],["Jede Rechnung verweist auf einen existierenden Kunden.","Referenzielle Integrität"]],"ref":"T4 S.9"},
+{"id":"m09q8","k":"mc","lvl":1,"pts":1,"q":"In `Rechnung (ReNr, KundenNr)` verweist KundenNr auf Kunde. Welche ist die **Vaterrelation**?","o":["Kunde","Rechnung","Beide","Keine"],"a":[0],"e":"Die Vaterrelation enthält den Primärschlüssel, auf den verwiesen wird. Rechnung ist die abhängige Relation.","ref":"T4 S.9"},
+{"id":"m09q9","k":"tf","lvl":2,"pts":3,"q":"Wahr oder falsch?","st":[{"s":"Ein Fremdschlüssel darf NULL sein, wenn das erlaubt wurde.","v":true},{"s":"Ein Primärschlüsselattribut darf NULL sein, wenn die anderen Teile gefüllt sind.","v":false},{"s":"In relationalen Datenbanken werden Beziehungen über Werte hergestellt, nicht über Zeiger.","v":true}],"ref":"T4 S.9"},
+{"id":"m09q10","k":"match","lvl":2,"pts":3,"q":"Kunde 2 wird gelöscht und hat Rechnungen. Welche Regel führt zu welchem Ergebnis?","pairs":[["Der Löschbefehl wird abgelehnt.","RESTRICT"],["Die Rechnungen verschwinden mit.","CASCADE"],["Die Rechnungen bleiben, ihre KundenNr wird leer.","SET NULL"]],"ref":"T4 S.10"},
+{"id":"m09q11","k":"mc","lvl":2,"pts":2,"src":"klausurnah","q":"Eine Bestellposition soll ohne ihre Bestellung nicht existieren. Welche Regel passt am besten?","o":["ON DELETE CASCADE","ON DELETE RESTRICT","ON DELETE SET NULL","ON UPDATE SET DEFAULT"],"a":[0],"e":"Eine Position ist existenzabhängig. Mit der Bestellung werden auch ihre Positionen gelöscht.","ref":"T3 S.28"}
+]}

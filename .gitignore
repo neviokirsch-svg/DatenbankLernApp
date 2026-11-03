@@ -1,0 +1,12 @@
+# Xcode
+xcuserdata/
+DerivedData/
+build/
+*.xcuserstate
+
+# System
+.DS_Store
+Thumbs.db
+
+# Testausgaben der HTML-Version
+web/dist/

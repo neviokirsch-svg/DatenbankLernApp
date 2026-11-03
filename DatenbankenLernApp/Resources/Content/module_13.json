@@ -1,0 +1,45 @@
+{"id":"m13","part":5,"order":13,"exam":5,"weight":8,"title":"Die Division","pages":"S. 13, 21–23","icon":"divide","glyph":"÷","goal":"Du beantwortest „alle“-Fragen, kennst die Formel auswendig und schreibst jedes Zwischenergebnis fehlerfrei auf. Das ist **Aufgabe 5** der Klausur.",
+"sections":[
+{"id":"m13s1","title":"Die Idee: Fragen mit „alle“","practice":["m13q1","m13q2","m13q3"],"blocks":[
+{"t":"p","x":"Die Division beantwortet Fragen mit **„alle“**: Welche Piloten fliegen **alle** Flugzeuge aus R₂? Welche Kunden haben **alle** Produkte bestellt? Das Ergebnis enthält die Attribute von R, die nicht in S vorkommen."},
+{"t":"sl","part":5,"page":21,"crop":[0,12,100,80],"x":"Division mit Piloten und Flugzeugen"},
+{"t":"f","x":"R ÷ S","title":"Voraussetzung: Alle Attribute von S kommen auch in R vor"},
+{"t":"k","x":"**Merksatz:** Wer in R mit **jedem** Tupel aus S kombiniert vorkommt, steht im Ergebnis. Zusätzliche Tupel stören nicht: Müller fliegt auch die 777 und ist trotzdem dabei."},
+{"t":"tb","title":"Direkt ablesen (Piloten)","head":["Pilot","Flugzeuge","Alle aus {707, 727, 747}?"],"rows":[["Snoopy","707, 727, 747","ja"],["Meyer","707, 727","nein, 747 fehlt"],["Müller","707, 727, 747, 777","ja"],["Lüdenscheid","727","nein"]]},
+{"t":"ex","x":"**Aufgabe 5a** verlangt das Ergebnis erst direkt. Gehe die Kandidaten wie in der Tabelle durch und vergleiche mit Teil b."}
+]},
+{"id":"m13s2","title":"Die Formel Schritt für Schritt","practice":["m13q4","m13q5","m13q6"],"blocks":[
+{"t":"f","x":"R ÷ S = π_{A}(R) − π_{A}((π_{A}(R) × S) − R)","title":"A sind die Attribute von R, die nicht in S vorkommen"},
+{"t":"p","x":"Das sieht schlimm aus, ist aber immer dieselbe Geschichte in fünf Schritten: Kandidaten sammeln, alle Soll-Kombinationen bilden, Lücken finden, Kandidaten mit Lücke streichen."},
+{"t":"x","viz":"division","params":{"data":"piloten"}},
+{"t":"tb","title":"Die fünf Schritte für dein A4-Blatt","head":["Nr.","Schritt","Bedeutung"],"rows":[["1","π_{A}(R)","alle Kandidaten"],["2","π_{A}(R) × S","alle geforderten Kombinationen"],["3","(π_{A}(R) × S) − R","fehlende Kombinationen"],["4","π_{A}((π_{A}(R) × S) − R)","Kandidaten mit Lücke"],["5","π_{A}(R) − Schritt 4","Ergebnis"]]},
+{"t":"sl","part":5,"page":23,"crop":[0,10,100,80],"x":"Alle Schritte als RelaX-Abfragen"},
+{"t":"ex","x":"Die Klausur verlangt **alle Zwischenergebnisse** und nur die Schritte der Division. Ein Join zur Ermittlung der Namen gehört nicht dazu. Schreibe also jede Teiltabelle hin, auch die große A × S."}
+]},
+{"id":"m13s3","title":"S selbst bestimmen","practice":["m13q7","m13q8","m13q9"],"blocks":[
+{"t":"p","x":"Oft ist S nicht gegeben, sondern steckt in der Frage: „Gibt es weitere Lieferanten, die **mindestens** die Artikel von Lieferant 3 liefern?“ Dann ermittelst du S zuerst."},
+{"t":"f","x":"S = π_{ArtNr}(σ_{LiefNr=3}(Lieferungen))"},
+{"t":"x","viz":"division","params":{"data":"lief"}},
+{"t":"sl","part":5,"page":22,"crop":[0,8,100,86],"x":"Weiteres Beispiel: Lieferanten"},
+{"t":"w","x":"Lieferant 3 erfüllt die Bedingung **trivial** und steht im Ergebnis. Sollen nur die **weiteren** Lieferanten gezeigt werden, folgt noch σ_{LiefNr≠3}(R ÷ S). Lieferant 4 liefert zusätzlich 500005, das stört nicht."},
+{"t":"code","x":"-- In RelaX\nLieferungen ÷ π ArtNr (σ LiefNr = 3 (Lieferungen))\n\n-- Probe mit Grundoperationen\nπ LiefNr (Lieferungen) - π LiefNr ((π LiefNr (Lieferungen) × π ArtNr (σ LiefNr = 3 (Lieferungen))) - Lieferungen)"}
+]},
+{"id":"m13s4","title":"Klausurtraining","practice":["m13q10","m13q11","m13q12","calc.division"],"blocks":[
+{"t":"p","x":"Jetzt führst du die Division selbst durch. Im Labor tippst du für jeden Schritt die richtigen Zeilen an, immer mit neuen Daten."},
+{"t":"k","x":"**Kontrolle für die Klausur:** |A × S| = |A| · |S|. Das Ergebnis von Teil b muss zu deiner direkten Antwort aus Teil a passen. Tut es das nicht, liegt fast immer ein Fehler in (A × S) − R."}
+]}],
+"calcs":["calc.division"],
+"questions":[
+{"id":"m13q1","k":"ms","lvl":1,"pts":2,"q":"Welche Piloten fliegen **alle** Flugzeuge aus R₂ = {707, 727, 747}?","fig":{"t":"tb","title":"R₁","head":["PILOT","FLUGZEUG"],"rows":[["Snoopy","707"],["Snoopy","727"],["Snoopy","747"],["Meyer","707"],["Meyer","727"],["Müller","707"],["Müller","727"],["Müller","747"],["Müller","777"],["Lüdenscheid","727"]]},"o":["Snoopy","Meyer","Müller","Lüdenscheid"],"a":[0,2],"keep":true,"e":"Müller fliegt zusätzlich die 777, das stört nicht. Meyer fehlt die 747.","ref":"T5 S.21"},
+{"id":"m13q2","k":"ms","lvl":1,"pts":2,"q":"Und bei R₃ = {707}?","o":["Snoopy","Meyer","Müller","Lüdenscheid"],"a":[0,1,2],"keep":true,"e":"Nur Lüdenscheid fliegt die 707 nicht. Je kleiner S, desto mehr Treffer.","ref":"T5 S.21"},
+{"id":"m13q3","k":"mc","lvl":2,"pts":1,"q":"R hat die Attribute (Kunde, Produkt), S hat (Produkt). Welche Attribute hat R ÷ S?","o":["Kunde","Produkt","Kunde und Produkt","Keine"],"a":[0],"ref":"T5 S.13"},
+{"id":"m13q4","k":"ord","lvl":2,"pts":3,"q":"Bringen Sie die Schritte der Division in die richtige Reihenfolge.","seq":["A = π_{A}(R): alle Kandidaten","A × S: alle geforderten Kombinationen","(A × S) − R: fehlende Kombinationen","π_{A}((A × S) − R): Kandidaten mit Lücke","A − π_{A}((A × S) − R): Ergebnis"],"ref":"T5 S.22"},
+{"id":"m13q5","k":"mc","lvl":2,"pts":2,"q":"Was bedeutet ein Tupel in **(A × S) − R**?","o":["Ein Kandidat und ein Element aus S, die in R nicht zusammen vorkommen","Ein Kandidat, der alles aus S besitzt","Ein Tupel, das in R mehrfach vorkommt","Das Endergebnis der Division"],"a":[0],"e":"Das sind die Lücken. Wer darin vorkommt, fliegt raus.","ref":"T5 S.21"},
+{"id":"m13q6","k":"num","lvl":2,"pts":2,"q":"Die Relation R hat 5 verschiedene Kandidaten, S hat 3 Tupel. Wie viele Tupel hat **A × S**?","num":15,"tol":0.01,"unit":"Tupel","steps":["|A × S| = |A| · |S| = 5 · 3 = **15**"],"ref":"T5 S.22"},
+{"id":"m13q7","k":"mc","lvl":2,"pts":2,"q":"Wie bestimmst du S, wenn nach „allen Kursen von Anna“ gefragt ist?","o":["π_{Kurs}(σ_{Name='Anna'}(Belegung))","σ_{Kurs}(π_{Name='Anna'}(Belegung))","Belegung × Anna","π_{Name}(Belegung)"],"a":[0],"ref":"T5 S.22"},
+{"id":"m13q8","k":"tf","lvl":3,"pts":3,"q":"Bewerten Sie die Aussagen zum Lieferanten-Beispiel.","st":[{"s":"Lieferant 3 steht im Ergebnis, weil er seine eigenen Artikel liefert.","v":true},{"s":"Lieferant 4 scheidet aus, weil er zusätzlich den Artikel 500005 liefert.","v":false,"e":"Zusätzliche Tupel stören nicht."},{"s":"Für „nur weitere Lieferanten“ muss noch σ_{LiefNr≠3} angewendet werden.","v":true}],"ref":"T5 S.22"},
+{"id":"m13q9","k":"num","lvl":2,"pts":2,"q":"Bei den Lieferanten ist A = {1, 2, 3, 4, 5}, S = {500003, 500004}, und Lieferanten 3 und 4 liefern beide Artikel. Wie viele Tupel hat **(A × S) − R**?","num":6,"tol":0.01,"unit":"Tupel","steps":["Lieferanten 1, 2 und 5 fehlen je beide Artikel","3 · 2 = **6**"],"ref":"T5 S.22"},
+{"id":"m13q10","k":"open","lvl":3,"pts":6,"src":"Blatt 5 · 5.8","q":"Gegeben sind B und P.\na) Finden Sie alle Kunden, die **alle** Produkte aus P bestellt haben.\nb) Bestätigen Sie das Ergebnis schrittweise mit der RA-Formel. Geben Sie Zwischenergebnisse an.","fig":{"t":"rels","tabs":[{"title":"Relation B (Bestellungen)","head":["Kunde","Produkt"],"rows":[["Alice","Laptop"],["Alice","Smartphone"],["Bob","Laptop"],["Bob","Tablet"],["Carol","Laptop"],["Carol","Smartphone"],["Carol","Tablet"]]},{"title":"Relation P (Produkte)","head":["Produkt"],"rows":[["Laptop"],["Smartphone"]]}]},"model":["a) Alice und Carol","A = π_{Kunde}(B) = {Alice, Bob, Carol}","A × P = (Alice, Laptop), (Alice, Smartphone), (Bob, Laptop), (Bob, Smartphone), (Carol, Laptop), (Carol, Smartphone)","(A × P) − B = (Bob, Smartphone)","π_{Kunde}((A × P) − B) = {Bob}","R ÷ S = {Alice, Bob, Carol} − {Bob} = {Alice, Carol}"],"ref":"T5 S.21"},
+{"id":"m13q11","k":"lab","lvl":3,"pts":6,"src":"Blatt 5 · 5.8","q":"Führe dieselbe Division jetzt **interaktiv** durch.","viz":"division","params":{"mode":"practice","data":"kunden"},"ref":"T5 S.21"},
+{"id":"m13q12","k":"lab","lvl":3,"pts":8,"src":"klausurnah","q":"Eine neue Aufgabe mit zufälligen Daten: Bestimme jedes Zwischenergebnis selbst.","viz":"division","params":{"mode":"practice"},"ref":"T5 S.22"}
+]}

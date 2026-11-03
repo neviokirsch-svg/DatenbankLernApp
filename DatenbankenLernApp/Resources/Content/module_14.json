@@ -1,0 +1,40 @@
+{"id":"m14","part":5,"order":14,"exam":5,"weight":2,"title":"Operatorbäume, Aggregation und Kalküle","pages":"S. 24–31","icon":"point.3.connected.trianglepath.dotted","glyph":"γ","goal":"Du liest Operatorbäume, erklärst, warum Selektionen nach unten gehören, und ordnest Algebra, Tupelkalkül, Domänenkalkül und SQL ein.",
+"sections":[
+{"id":"m14s1","title":"Gruppierung und Sortierung","practice":["m14q1","m14q2"],"blocks":[
+{"t":"p","x":"Bei der **Gruppierung** werden Tupel mit gleichen Attributwerten zusammengefasst. Auf jede Gruppe wirkt eine Aggregatfunktion, die einen einzelnen Wert berechnet: **SUM, COUNT, MIN, MAX, AVG**."},
+{"t":"st","title":"Von Mitarbeitern zur Summe je Abteilung","steps":[{"f":"Mitarbeiter","x":"Ausgangstabelle","tabs":[{"head":["Abteilung","Name","Gehalt"],"rows":[["IT","Anna","5000"],["IT","Ben","6000"],["Vertrieb","Clara","3500"],["Vertrieb","David","4000"],["HR","Eva","1500"]]}]},{"f":"γ_{Abteilung}","x":"Gleiche Abteilungen bilden eine Gruppe.","tabs":[{"head":["Abteilung","Name","Gehalt"],"rows":[["IT","Anna","5000"],["IT","Ben","6000"],["Vertrieb","Clara","3500"],["Vertrieb","David","4000"],["HR","Eva","1500"]],"hl":[0,1]}]},{"f":"γ_{Abteilung, SUM(Gehalt), COUNT(Name)}(Mitarbeiter)","x":"Jede Gruppe wird zu **einer** Zeile.","tabs":[{"head":["Abteilung","Summe","Anzahl"],"rows":[["IT","11000","2"],["Vertrieb","7500","2"],["HR","1500","1"]],"ok":[0,1,2]}]}]},
+{"t":"code","x":"SELECT Abteilung, SUM(Gehalt) FROM Mitarbeiter GROUP BY Abteilung;\nSELECT * FROM Mitarbeiter ORDER BY Gehalt DESC;"},
+{"t":"tb","head":["Symbol","Bedeutung"],"rows":[["γ_{A, f(B)}(R)","Gruppiert R über A und wendet die Aggregatfunktion f an"],["τ_{A}(R)","Sortiert R nach A"]]}
+]},
+{"id":"m14s2","title":"Operatorbäume und Optimierung","practice":["m14q3","m14q4","m14q5","m14q6"],"blocks":[
+{"t":"p","x":"Ein Algebra-Ausdruck lässt sich als **Baum** zeichnen: Die Basisrelationen sind die Blätter, die Operatoren die inneren Knoten. Gelesen wird **von unten nach oben**."},
+{"t":"sl","part":5,"page":25,"crop":[0,10,100,84],"x":"Operatorbaumdarstellung im Skript"},
+{"t":"x","viz":"optree"},
+{"t":"b","i":["**Selektion aufteilen und nach unten schieben:** σ_{F1∧F2}(R) ≡ σ_{F1}(σ_{F2}(R)). Jede Bedingung wandert zu der Relation, die sie betrifft.","**Kreuzprodukt und Selektion zum Join zusammenfassen:** σ_{θ}(R × S) ≡ R ⋈_{θ} S.","**Projektion früh ausführen:** Attribute, die weiter oben nicht gebraucht werden, fallen sofort weg."]},
+{"t":"sl","part":5,"page":26,"crop":[0,10,100,84],"x":"Naiver und optimierter Plan im Skript"},
+{"t":"h","x":"Vom SQL-Befehl zum Ausführungsplan"},
+{"t":"p","x":"SQL-Anfrage → Parser prüft Syntax, Tabellen und Attribute → relationale Algebra als Operatorbaum → Optimierer wendet Äquivalenzregeln und Kostenschätzung an → Ausführungsplan mit Indizes, Join-Verfahren und Reihenfolge."},
+{"t":"code","x":"EXPLAIN\nSELECT p.Name, v.Titel\nFROM Professoren p\nINNER JOIN Vorlesungen v ON p.PersNr = v.gelesenVon\nWHERE v.SWS = 4;"},
+{"t":"tb","head":["Ausgabe","Bedeutung"],"rows":[["**type**","Zugriffsart, z. B. ALL (ganze Tabelle) oder ref (über einen Index)"],["**key**","Der tatsächlich genutzte Index"],["**rows**","Geschätzte Zahl der gelesenen Zeilen"]]}
+]},
+{"id":"m14s3","title":"Algebra, Kalküle und SQL","practice":["m14q7","m14q8","m14q9"],"blocks":[
+{"t":"tb","head":["Konzept","Art","Variablen","Beispiel"],"rows":[["**Relationale Algebra**","Prozedural: **wie** wird gerechnet?","–","π_{Name,Titel}(Professoren ⋈_{PersNr=gelesenVon} Vorlesungen)"],["**Tupelkalkül (TRC)**","Deklarativ: **welche Tupel?**","ganze Tupel","{ p ∣ p ∈ Professoren ∧ p.Rang = 'Boss' }"],["**Domänenkalkül (DRC)**","Deklarativ: **welche Attributwerte?**","Attributwerte","{ n ∣ ∃r, d (Personal(r, n, d) ∧ d = 'Willi') }"]]},
+{"t":"k","x":"Alle drei sind **gleich mächtig**. SQL ist die praktische Sprache: Der Benutzer formuliert deklarativ, das DBMS rechnet intern mit Algebra und erweitert sie um Aggregation, Sortierung und Datenänderung."},
+{"t":"f","x":"∃ „es existiert ein“        ∀ „für alle“","title":"Quantoren aus dem Prädikatenkalkül erster Stufe"},
+{"t":"sl","part":5,"page":30,"crop":[0,10,100,80],"x":"Vergleich der drei Konzepte"},
+{"t":"h","x":"Selbst ausprobieren"},
+{"t":"p","x":"Hier läuft echte Algebra auf der Vorlesungs-Datenbank aus deinem Ordner (`VorlesungenDump.sql`). Baue Anfragen Operator für Operator auf und vergleiche Algebra und SQL."},
+{"t":"x","viz":"raplay"}
+]}],
+"calcs":[],
+"questions":[
+{"id":"m14q1","k":"match","lvl":1,"pts":3,"q":"Welche Aggregatfunktion passt?","pairs":[["Anzahl der Elemente einer Gruppe","COUNT"],["Summe eines Attributs","SUM"],["Durchschnitt","AVG"]],"ref":"T5 S.24"},
+{"id":"m14q2","k":"num","lvl":1,"pts":1,"q":"Abteilung IT hat Gehälter 5000 und 6000, Vertrieb 3500 und 4000, HR 1500. Wie viele Zeilen liefert die Gruppierung nach Abteilung?","num":3,"tol":0.01,"unit":"Zeilen","steps":["Eine Zeile je Gruppe: IT, Vertrieb, HR = **3**"],"ref":"T5 S.24"},
+{"id":"m14q3","k":"open","lvl":3,"pts":3,"q":"Beschreiben Sie in Worten die Bedeutung des Operatorbaums. Schema: Studenten(MatrNr, Name, Semester), pruefen(MatrNr, VorlNr, PersNr, Note), Assistenten(PersNr, Name, Fachgebiet, Boss).","src":"Blatt 5 · 5.6","fig":{"t":"sl","part":8,"page":2,"crop":[2,13,92,38],"x":"Operatorbaum aus Übungsblatt 5"},"model":["Unten: Studenten mit Namen Jonas auswählen","Diese Studenten über MatrNr mit ihren Prüfungen verbinden","Über p.PersNr = a.Boss die Assistenten des prüfenden Professors dazunehmen","Oben: PersNr und Name dieser Assistenten ausgeben","Zusammengefasst: Die Assistenten aller Professoren, die Jonas geprüft haben"],"ref":"T5 S.25"},
+{"id":"m14q4","k":"mc","lvl":1,"pts":1,"q":"In welcher Richtung wird ein Operatorbaum gelesen?","o":["Von unten (Blätter) nach oben (Wurzel)","Von oben nach unten","Von links nach rechts","Die Richtung ist egal, weil nichts berechnet wird"],"a":[0],"ref":"T5 S.25"},
+{"id":"m14q5","k":"mc","lvl":2,"pts":2,"q":"Warum schiebt der Optimierer Selektionen nach unten?","o":["Sie verkleinern früh die Zwischenergebnisse, das Ergebnis bleibt gleich.","Sie liefern dann ein anderes, besseres Ergebnis.","Selektionen dürfen nie über einem Join stehen.","Damit weniger Spalten ausgegeben werden."],"a":[0],"ref":"T5 S.26"},
+{"id":"m14q6","k":"tf","lvl":2,"pts":3,"src":"klausurnah","q":"Wahr oder falsch?","st":[{"s":"σ_{θ}(R × S) lässt sich zu R ⋈_{θ} S zusammenfassen.","v":true},{"s":"EXPLAIN führt die Anfrage in MySQL immer vollständig aus.","v":false,"e":"EXPLAIN zeigt nur den Plan. Erst EXPLAIN ANALYZE führt die Anfrage aus und misst die Zeit."},{"s":"Ein Index kann den Ausführungsplan verändern.","v":true}],"ref":"T5 S.26-27"},
+{"id":"m14q7","k":"match","lvl":2,"pts":3,"q":"Welches Konzept ist gemeint?","pairs":[["Prozedural, beschreibt die Berechnung","Relationale Algebra"],["Deklarativ, Variablen stehen für ganze Tupel","Tupelkalkül"],["Deklarativ, Variablen stehen für Attributwerte","Domänenkalkül"]],"ref":"T5 S.30"},
+{"id":"m14q8","k":"mc","lvl":2,"pts":1,"q":"Was bedeutet „relational vollständig“?","o":["Jede Anfrage der relationalen Algebra lässt sich ausdrücken.","Jede Relation hat einen Primärschlüssel.","Eine Tabelle enthält keine NULL-Werte.","Alle Tabellen sind in BCNF."],"a":[0],"ref":"T5 S.28"},
+{"id":"m14q9","k":"tf","lvl":2,"pts":2,"q":"Wahr oder falsch?","st":[{"s":"Relationale Algebra, Tupelkalkül und Domänenkalkül sind gleich mächtig.","v":true},{"s":"SQL-Benutzer müssen selbst festlegen, in welcher Reihenfolge das DBMS die Joins ausführt.","v":false,"e":"SQL ist deklarativ. Die Reihenfolge wählt der Optimierer."}],"ref":"T5 S.28-31"}
+]}

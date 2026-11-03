@@ -1,0 +1,36 @@
+{"id":"m11","part":5,"order":11,"exam":5,"weight":3,"title":"Die sechs Grundoperatoren","pages":"S. 3–11","icon":"function","glyph":"σπ","goal":"Du kennst Selektion, Projektion, Kreuzprodukt, Vereinigung, Differenz und Umbenennung und schreibst einfache Anfragen in Algebra und SQL.",
+"sections":[
+{"id":"m11s1","title":"Warum relationale Algebra?","practice":["m11q1","m11q2","m11q3"],"blocks":[
+{"t":"p","x":"Für die Abfrage der Daten braucht man eine Anfragesprache. In der Praxis ist das SQL, theoretisch gibt es drei Möglichkeiten: **relationale Algebra**, **relationaler Domänenkalkül** und **relationaler Tupelkalkül**."},
+{"t":"sl","part":5,"page":4,"crop":[0,12,100,74],"x":"Ein Operator bekommt Relationen und liefert eine Relation"},
+{"t":"k","x":"**Abgeschlossenheit:** Jeder Operator bekommt Mengen von Tupeln und gibt eine Menge von Tupeln aus. Deshalb lassen sich Operatoren beliebig kombinieren."},
+{"t":"b","i":["Grundlage aller SQL-Anfragen","Theoretisches Fundament für die Optimierung im DBMS","Ermöglicht formale Beweise der Anfrageäquivalenz","Erklärt, warum eine Anfrage schnell oder langsam ist"]},
+{"t":"tb","title":"Basis-Operatoren","head":["Name","Text","Mathematisch"],"rows":[["Selektion","SEL","σ_{P}(R)"],["Projektion","PROJ","π_{a1,…,an}(R)"],["Kreuzprodukt","X","R × S"],["Vereinigung","UNION","R ∪ S"],["Mengendifferenz","MINUS","R − S"],["Umbenennung","RENAME","ρ_{V}(R)"]]}
+]},
+{"id":"m11s2","title":"σ und π: Zeilen und Spalten","practice":["m11q4","m11q5","m11q6","m11q7"],"blocks":[
+{"t":"x","viz":"raops","params":{"start":"sigma"}},
+{"t":"tb","head":["","Selektion σ","Projektion π"],"rows":[["wählt aus","**Zeilen**","**Spalten**"],["Schreibweise","σ_{Semester=5}(Studenten)","π_{Semester, Name}(Studenten)"],["SQL","`SELECT * FROM Studenten WHERE Semester = 5`","`SELECT DISTINCT Semester, Name FROM Studenten`"],["Besonderheit","Logische Operatoren ∧, ∨, ¬ und Vergleiche =, ≠, <, >","Duplikate fallen automatisch weg"]]},
+{"t":"w","x":"**σ ist nicht SELECT.** Das SQL-Wort `SELECT` entspricht der Projektion. Die Selektion σ steckt in `WHERE`. Und SQL behält Duplikate, wenn du nicht `DISTINCT` schreibst."},
+{"t":"sl","part":5,"page":7,"crop":[0,12,100,74],"x":"Projektion mit Beispieltabellen aus dem Skript"}
+]},
+{"id":"m11s3","title":"×, ∪, − und ρ","practice":["m11q8","calc.rows","m11q9","m11q10","m11q11"],"blocks":[
+{"t":"tb","head":["Operator","Bedeutung","Voraussetzung","SQL"],"rows":[["**R × S**","Jede Zeile mit jeder kombinieren, |R| · |S| Zeilen","keine","`CROSS JOIN`"],["**R ∪ S**","Alle Tupel aus beiden, Duplikate entfernt","gleiche Attributzahl und Typen","`UNION` (ALL behält Duplikate)"],["**R − S**","Tupel aus R, die nicht in S sind","gleiches Schema","`EXCEPT` (Oracle: `MINUS`)"],["**ρ**","Relation oder Attribut umbenennen","keine","`AS`"]]},
+{"t":"p","x":"Probiere im Labor oben auch die Reiter ×, ∪, − und ρ aus. Hier ist das Kreuzprodukt direkt:"},
+{"t":"x","viz":"raops","params":{"start":"cross"}},
+{"t":"k","x":"Bei ∪ und − müssen die **Namen** der Spalten nicht identisch sein, Anzahl und Typen aber schon. Das Kreuzprodukt hat diese Voraussetzung nicht."},
+{"t":"sl","part":5,"page":10,"crop":[0,12,100,74],"x":"Mengendifferenz im Skript"}
+]}],
+"calcs":["calc.rows"],
+"questions":[
+{"id":"m11q1","k":"open","lvl":1,"pts":2,"q":"Was ist die relationale Algebra?","src":"Blatt 5 · 5.1","model":["Die formale Grundlage relationaler Datenbanksysteme","Eine Menge von Operatoren, die auf Relationen angewendet werden","Operatoren sind abgeschlossen: Eingabe und Ausgabe sind Relationen","Prozedural: beschreibt, wie das Ergebnis berechnet wird. DBMS nutzen sie zur Anfrageoptimierung"],"ref":"T5 S.4"},
+{"id":"m11q2","k":"ms","lvl":1,"pts":3,"q":"Welche sechs **Grundoperatoren** gibt es in der relationalen Algebra?","src":"Blatt 5 · 5.2","o":["Selektion","Projektion","Kreuzprodukt","Vereinigung","Mengendifferenz","Umbenennung","Natural Join","Division"],"a":[0,1,2,3,4,5],"e":"Join und Division sind abgeleitet, sie lassen sich aus den Grundoperatoren aufbauen.","ref":"T5 S.5"},
+{"id":"m11q3","k":"mc","lvl":1,"pts":1,"q":"Was bedeutet „Alle Operatoren sind mengenorientiert abgeschlossen“?","o":["Jeder Operator bekommt Relationen und liefert wieder eine Relation.","Operatoren dürfen nur einmal verwendet werden.","Eine Relation darf nur einmal abgefragt werden.","Das Ergebnis hat immer dieselbe Zeilenzahl."],"a":[0],"ref":"T5 S.4"},
+{"id":"m11q4","k":"mc","lvl":1,"pts":1,"q":"Was liefert σ_{Semester = 5}(Studenten)?","o":["Alle Studenten im 5. Semester mit allen Spalten","Nur die Spalte Semester","Die Anzahl der Studenten im 5. Semester","Alle Studenten außer denen im 5. Semester"],"a":[0],"ref":"T5 S.6"},
+{"id":"m11q5","k":"match","lvl":2,"pts":3,"q":"Welche SQL-Anfrage gehört zum Ausdruck?","pairs":[["σ_{A=2}(R)","SELECT * FROM R WHERE A = 2"],["π_{A,B}(R)","SELECT DISTINCT A, B FROM R"],["π_{A}(σ_{B='f'}(R))","SELECT DISTINCT A FROM R WHERE B = 'f'"]],"ref":"T5 S.6-7"},
+{"id":"m11q6","k":"open","lvl":2,"pts":3,"q":"Geben Sie in relationaler Algebra an und bestimmen Sie die Ergebnismenge: **alle Vorträge in der Soda Hall** mit den Attributen subject, time, place.","src":"Blatt 5 · 5.5 a","fig":{"t":"rels","tabs":[{"title":"Timetable T","head":["subject","time","place","sid","units"],"rows":[["Relational algebra","09:00","Cory Hall","1","3"],["Three-valued logic","11:30","Soda Hall","4","2"],["Domain relational calculus","13:00","Cory Hall","2","2"],["Tuple relational calculus","14:30","Cory Hall","1","2"],["History of SQL","16:30","Cory Hall","5","1"],["Constraint query languages","18:00","Soda Hall","3","2"]]}]},"model":["π_{subject, time, place}(σ_{place='Soda Hall'}(T))","Three-valued logic, 11:30, Soda Hall","Constraint query languages, 18:00, Soda Hall"],"ref":"T5 S.6-7"},
+{"id":"m11q7","k":"num","lvl":1,"pts":1,"q":"R hat die Spalte B mit den Werten f, z, a, q, c, c, f. Wie viele Zeilen hat π_{B}(R)?","num":5,"tol":0.01,"unit":"Zeilen","steps":["Verschieden sind f, z, a, q, c","Duplikate fallen in der Algebra weg: **5**"],"ref":"T5 S.7"},
+{"id":"m11q8","k":"num","lvl":1,"pts":1,"q":"R hat 2 Zeilen, S hat 4 Zeilen. Wie viele Zeilen hat R × S?","num":8,"tol":0.01,"unit":"Zeilen","steps":["2 · 4 = **8**"],"ref":"T5 S.8"},
+{"id":"m11q9","k":"mc","lvl":2,"pts":2,"q":"Was ist die Voraussetzung für R ∪ S?","o":["Gleiche Attributzahl und gleiche Typen","Dieselben Zeilen in beiden Relationen","Dieselben Spaltennamen, Typen sind egal","Es gibt keine Voraussetzung"],"a":[0],"e":"Die Namen der Spalten müssen nicht identisch sein.","ref":"T5 S.9"},
+{"id":"m11q10","k":"match","lvl":2,"pts":3,"q":"Welche Aussage passt zum Operator?","pairs":[["UNION","Entfernt Duplikate"],["UNION ALL","Behält alle Tupel"],["EXCEPT","Tupel in R, die nicht in S sind"]],"ref":"T5 S.9-10"},
+{"id":"m11q11","k":"mc","lvl":2,"pts":1,"q":"Wann braucht man die Umbenennung ρ zwingend?","o":["Wenn eine Relation mehrfach in einer Anfrage vorkommt","Immer bei einer Selektion","Bei jeder Vereinigung","Wenn eine Spalte Zahlen enthält"],"a":[0],"e":"Dann braucht die Kopie einen neuen Namen, zum Beispiel beim Join einer Tabelle mit sich selbst.","ref":"T5 S.11"}
+]}
