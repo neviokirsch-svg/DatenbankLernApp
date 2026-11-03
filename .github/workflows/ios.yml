@@ -1,0 +1,64 @@
+name: iOS
+
+on:
+  push:
+    branches: [master, 'claude/**']
+    paths-ignore: ['**.md', '.gitignore']
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ios-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: macos-26
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '24'
+      - name: Inhalte und Projekt prüfen
+        run: |
+          node tools/test-engines.js
+          node tools/validate-content.js
+          node tools/check-swift.js
+      - name: Stabiles Xcode auswählen
+        run: bash tools/ci/select-xcode.sh
+      - name: Simulator auswählen
+        id: simulator
+        run: echo "id=$(python3 tools/ci/select-simulator.py)" >> "$GITHUB_OUTPUT"
+      - name: Für den Simulator bauen
+        run: |
+          mkdir -p build
+          set -o pipefail
+          xcodebuild build -project DatenbankenLernApp.xcodeproj -scheme DatenbankenLernApp \
+            -destination 'platform=iOS Simulator,id=${{ steps.simulator.outputs.id }}' \
+            -derivedDataPath build/DerivedData CODE_SIGNING_ALLOWED=NO \
+            2>&1 | tee build/xcodebuild.log
+      - name: Im Simulator starten
+        run: |
+          bash tools/ci/launch-check.sh '${{ steps.simulator.outputs.id }}' \
+            build/DerivedData/Build/Products/Debug-iphonesimulator/DatenbankenLernApp.app
+      - name: IPA erzeugen
+        run: bash tools/ci/make-ipa.sh
+      - name: Bericht und Startbilder aufbewahren
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: DatenbankenLernApp-report
+          path: |
+            build/xcodebuild.log
+            build/screenshots
+          if-no-files-found: warn
+          retention-days: 7
+      - name: IPA aufbewahren
+        uses: actions/upload-artifact@v4
+        with:
+          name: DatenbankenLernApp-ipa
+          path: build/ipa/DatenbankenLernApp.ipa
+          retention-days: 14
